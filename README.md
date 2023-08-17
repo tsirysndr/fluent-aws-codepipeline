@@ -35,6 +35,6 @@ buildspec
 
 console.log(buildspec.toString());
 
-workflow.save("buildspec.yml");
+buildspec.save("buildspec.yml");
 
 ```
