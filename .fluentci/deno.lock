@@ -79,8 +79,8 @@
     "https://esm.sh/v128/yallist@4.0.0/denonext/yallist.mjs": "61f180d807dda50bac17028eda05d5722a3fecef6e98a9064e2353ea6864fd82",
     "https://esm.sh/v130/lodash.flatten@4.4.0/denonext/lodash.flatten.mjs": "8e86ab607deea15cc3c1acfb5eae278ecbc5b80f24167b4e8f4c56df3278cd55",
     "https://esm.sh/v130/stringify-tree@1.1.1/denonext/stringify-tree.mjs": "40a9d40e0282b5432302a3da68b88aa11685bc0b8a0b70246168deed5c5773fe",
-    "https://esm.sh/v130/yaml@2.3.1/denonext/yaml.mjs": "71f677b4bfc69271af9d98db5194e354f9a1863955e208e26d32a9ef78bd89f5",
-    "https://esm.sh/yaml@v2.3.1": "9f8730b9d2fdb4d9320be0c0e62d57936097826342588991d561ae35555aca55"
+    "https://esm.sh/v131/yaml@2.3.1/denonext/yaml.mjs": "71f677b4bfc69271af9d98db5194e354f9a1863955e208e26d32a9ef78bd89f5",
+    "https://esm.sh/yaml@v2.3.1": "1fe2490feb3d9c6d2c71c64dbdbed90acd4164b00628b3c68a311b6731ca38b5"
   },
   "npm": {
     "specifiers": {

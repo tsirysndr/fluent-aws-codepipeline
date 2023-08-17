@@ -4,7 +4,7 @@ export function generateYaml(): Workflow {
   const workflow = new Workflow("Tests");
 
   const push = {
-    branches: ["main"],
+    branches: ["master"],
   };
 
   const setupDagger = `\
