@@ -1,4 +1,4 @@
-import { BuildSpec } from "https://deno.land/x/fluent_aws_codepipeline@v0.1.0/mod.ts";
+import { BuildSpec } from "https://deno.land/x/fluent_aws_codepipeline/mod.ts";
 
 const buildspec = new BuildSpec();
 
