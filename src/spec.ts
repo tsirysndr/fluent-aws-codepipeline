@@ -1,65 +1,91 @@
-export type PhaseName = "install" | "pre_build" | "build" | "post_build";
+import { z } from "https://deno.land/x/zod@v3.22.1/mod.ts";
 
-export type Phase = {
-  "run-as"?: string;
-  "on-failure"?: "ABORT" | "CONTINUE";
-  "runtime-versions"?: { [key: string]: string };
-  commands?: string[];
-  finally?: string[];
-};
+export const EnvSchema = z
+  .object({
+    shell: z.string().optional(),
+    variables: z.record(z.string()).optional(),
+    "parameter-store": z.record(z.string()).optional(),
+    "exported-variables": z.array(z.string()).optional(),
+    "secrets-manager": z.record(z.string()).optional(),
+    "git-credential-helper": z.enum(["yes", "no"]).optional(),
+  })
+  .optional();
 
-export type Env = {
-  shell?: string;
-  variables?: { [key: string]: string };
-  "parameter-store"?: { [key: string]: string };
-  "exported-variables"?: string[];
-  "secrets-manager"?: { [key: string]: string };
-  "git-credential-helper"?: "yes" | "no";
-};
+export const PhaseSchema = z
+  .object({
+    "run-as": z.string().optional(),
+    "on-failure": z.enum(["ABORT", "CONTINUE"]).optional(),
+    "runtime-versions": z.record(z.string()).optional(),
+    commands: z.array(z.string()).optional(),
+    finally: z.array(z.string()).optional(),
+  })
+  .optional();
 
-export type Reports = {
-  files: string[];
-  "base-directory"?: string;
-  "discard-paths"?: "yes" | "no";
-  "file-format"?: string;
-};
+export const ReportsSchema = z
+  .object({
+    files: z.array(z.string()),
+    "base-directory": z.string().optional(),
+    "discard-paths": z.enum(["yes", "no"]).optional(),
+    "file-format": z.string().optional(),
+  })
+  .optional();
 
-export type Artifacts = {
-  files: string[];
-  name?: string;
-  "discard-paths"?: "yes" | "no";
-  "base-directory"?: string;
-  "exclude-paths"?: string[];
-  "enable-symlinks"?: "yes" | "no";
-  "s3-prefix"?: string;
-  "secondary-artifacts"?: {
-    [key: string]: {
-      files: string[];
-      name?: string;
-      "discard-paths"?: "yes" | "no";
-      "base-directory"?: string;
-      "exclude-paths"?: string[];
-      "enable-symlinks"?: "yes" | "no";
-      "s3-prefix"?: string;
-    };
-  };
-};
+export const ArtifactsSchema = z
+  .object({
+    files: z.array(z.string()),
+    name: z.string().optional(),
+    "discard-paths": z.enum(["yes", "no"]).optional(),
+    "base-directory": z.string().optional(),
+    "exclude-paths": z.array(z.string()).optional(),
+    "enable-symlinks": z.enum(["yes", "no"]).optional(),
+    "s3-prefix": z.string().optional(),
+    "secondary-artifacts": z
+      .record(
+        z.object({
+          files: z.array(z.string()),
+          name: z.string().optional(),
+          "discard-paths": z.enum(["yes", "no"]).optional(),
+          "base-directory": z.string().optional(),
+          "exclude-paths": z.array(z.string()).optional(),
+          "enable-symlinks": z.enum(["yes", "no"]).optional(),
+          "s3-prefix": z.string().optional(),
+        })
+      )
+      .optional(),
+  })
+  .optional();
 
-export type Cache = {
-  paths: string[];
-};
+export const CacheSchema = z
+  .object({
+    paths: z.array(z.string()),
+  })
+  .optional();
 
-export type YamlSpec = {
-  version: 0.1 | 0.2;
-  "run-as"?: string;
-  env?: Env;
-  phases: {
-    install?: Phase;
-    pre_build?: Phase;
-    build?: Phase;
-    post_build?: Phase;
-  };
-  reports?: Reports;
-  artifacts?: Artifacts;
-  cache?: Cache;
-};
+export const Schema = z.object({
+  version: z.number().optional(),
+  "run-as": z.string().optional(),
+  env: EnvSchema,
+  phases: z.object({
+    install: PhaseSchema,
+    pre_build: PhaseSchema,
+    build: PhaseSchema,
+    post_build: PhaseSchema,
+  }),
+  reports: ReportsSchema,
+  artifacts: ArtifactsSchema,
+  cache: CacheSchema,
+});
+
+export type PhaseName = keyof z.infer<typeof Schema>["phases"];
+
+export type Phase = z.infer<typeof PhaseSchema>;
+
+export type Env = z.infer<typeof EnvSchema>;
+
+export type Reports = z.infer<typeof ReportsSchema>;
+
+export type Artifacts = z.infer<typeof ArtifactsSchema>;
+
+export type Cache = z.infer<typeof CacheSchema>;
+
+export type YamlSpec = z.infer<typeof Schema>;
