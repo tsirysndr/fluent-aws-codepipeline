@@ -12,7 +12,7 @@ import {
   ArtifactsSchema,
   CacheSchema,
 } from "./spec.ts";
-import { stringify } from "yaml";
+import { stringify } from "https://esm.sh/v131/yaml@2.3.1";
 
 class BuildSpec {
   private yaml: YamlSpec;
