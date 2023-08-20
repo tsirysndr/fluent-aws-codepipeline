@@ -60,7 +60,7 @@ class BuildSpec {
     )}`;
   }
 
-  save(path: "buildspec.yml") {
+  save(path = "buildspec.yml") {
     const config = this.toString();
     Deno.writeTextFileSync(path, config);
   }
